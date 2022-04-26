@@ -24,14 +24,13 @@ def append_exercise(session_exercises,data):
     pass 
 
 def rearrange(list_object,target):
-    
     return [list_object.pop(list_object.index(target))]+list_object
 
+@st.cache
+def load_exercises():    
+    return  pd.read_csv('NS_Ref.csv').set_index('Exercise')
 
-
-ref = pd.read_csv('NS_Ref.csv').set_index('Exercise')
-
-
+ref = load_exercises()
 
 fill_in = ['Yeet']
 
