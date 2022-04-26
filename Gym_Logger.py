@@ -25,14 +25,11 @@ def append_exercise(session_exercises,data):
 
 
 
-
-
 fill_in = ['Yeet']
 
 
 exercise_data = {}
 
-exercise_list = []
 
 exercise_data['Exercise'] = st.selectbox('Excersies',fill_in)
 
@@ -48,13 +45,5 @@ exercise_data['Sets'] = st.selectbox('Set Range',set_input)
 
 st.write(exercise_data)
 
-st.button('Log excerise',on_click=append_exercise(session_exercises,exercise_data))
+#st.button('Log excerise',on_click=append_exercise(session_exercises,exercise_data))
 
-
-#sets_option
-
-
-#get time here
-
-
-#submit_button
