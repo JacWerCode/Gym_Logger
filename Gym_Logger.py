@@ -7,8 +7,8 @@ Created on Sun Apr 24 13:19:31 2022
 
 import pandas as pd 
 import numpy as np 
-import plotly.graph_objects as go
-import plotly.express as px
+#import plotly.graph_objects as go
+#import plotly.express as px
 import streamlit as st
 st.set_page_config(layout="wide")
 #from openpyxl import load_workbook
@@ -23,6 +23,14 @@ def append_exercise(session_exercises,data):
     #st.write(data)
     pass 
 
+def rearrange(list_object,target):
+    
+    return [list_object.pop(list_object.index(target))]+list_object
+
+
+
+ref = pd.read_csv('NS_Ref.csv').set_index('Exercise')
+
 
 
 fill_in = ['Yeet']
@@ -31,19 +39,19 @@ fill_in = ['Yeet']
 exercise_data = {}
 
 
-exercise_data['Exercise'] = st.selectbox('Excersies',fill_in)
+
+exercises = sorted(ref.index.unique())
+exercise_data['Exercise'] = st.selectbox('Excersies',exercises)
 
 
-
-exercise_data['Weight'] = st.number_input('Weight',0.,1000.,50.,5.)
-
+exercise_data['Weight'] = st.number_input('Weight',0.,1000.,float(ref.loc[exercise_data['Exercise'],'Weight']),5.)
 
 
-set_input = ['8-10','10-12']
-exercise_data['Sets'] = st.selectbox('Set Range',set_input)
+exercise_data['Sets'] =st.number_input('Sets',1,10,4,1)
+
+rep_ranges = rearrange(sorted(ref['Reps'].unique()),ref.loc[exercise_data['Exercise'],'Reps'])
+exercise_data['Reps'] = st.selectbox('Rep Range',rep_ranges)
 
 
-st.write(exercise_data)
-
-#st.button('Log excerise',on_click=append_exercise(session_exercises,exercise_data))
+st.button('Log excerise',on_click=append_exercise(session_exercises,exercise_data))
 
