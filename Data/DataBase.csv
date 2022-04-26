@@ -1,1 +1,2 @@
-User,Time,Exercise,Weight,Sets,Reps
+User,DateTime,Day,Date,Time,Exercise,Weight,Sets,Reps
+Nate,2022-04-26 14:57:04.458697,Tue,2022-04-26,02:57 PM,Lat pulldown machine,100.0,3,10-12

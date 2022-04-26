@@ -10,7 +10,7 @@ import pandas as pd
 #import plotly.graph_objects as go
 #import plotly.express as px
 import streamlit as st
-import datetime as dt
+import datetime
 st.set_page_config(layout="wide")
 #from openpyxl import load_workbook
 #import regex as re
@@ -31,7 +31,7 @@ def load_exercises():
     return  pd.read_csv('NS_Ref.csv').set_index('Exercise')
 
 def load_db():
-    return pd.read_csv('Data/DataBase.csv')
+    return pd.read_csv('Data/DataBase.csv',parse_dates=True)
 
 
 ref = load_exercises()
@@ -75,21 +75,27 @@ rep_ranges = rearrange(sorted(ref['Reps'].unique()),start_reps)
 exercise_data['Reps'] = reps.selectbox('Rep Range',rep_ranges)
 
 if st.button('Submit'):
-    exercise_data['Time'] = dt.datetime.now()
+    
+    exercise_data['DateTime'] = datetime.datetime.now()
+    exercise_data['Date'] = exercise_data['DateTime'].date()
+    exercise_data['Day'] = exercise_data['DateTime'].strftime('%A')[:3]
+    exercise_data['Time'] = exercise_data['DateTime'].time().strftime("%I:%M %p")
     
     submitted_ex = pd.DataFrame(exercise_data,index=[0])
     
-    db = db.append(submitted_ex,ignore_index=True)
-    
+    db = pd.concat([db,submitted_ex],ignore_index=True).reset_index(drop=True)
     db.to_csv('Data/DataBase.csv',index=None)
+    db = load_db()
     
     
-    user_mask = db['User'] == exercise_data['User']
-    
-    user_display = db[user_mask].tail().astype(str)
-    
-    st.write('Last 5 Exercises')
-    st.dataframe(user_display)
-    
-    
-    
+
+st.write('Last 5 Exercises')
+user_mask = db['User'] == exercise_data['User']
+if st.button('Clear User History'):
+    db = db[~user_mask]
+    db.to_csv('Data/DataBase.csv',index=None)
+
+
+user_mask = db['User'] == exercise_data['User']
+user_display = db[user_mask].tail().reset_index(drop=True)
+st.write(user_display.drop('DateTime',axis=1).tail())
