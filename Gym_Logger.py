@@ -10,7 +10,7 @@ import pandas as pd
 #import plotly.graph_objects as go
 #import plotly.express as px
 import streamlit as st
-import datetime
+import datetime as dt
 st.set_page_config(layout="wide")
 #from openpyxl import load_workbook
 #import regex as re
@@ -18,7 +18,7 @@ st.set_page_config(layout="wide")
 import os
 
 #import gspread
-
+from dateutil import tz
 
 def rearrange(list_object,target):
     return [list_object.pop(list_object.index(target))]+list_object
@@ -82,13 +82,15 @@ exercise_data['Weight'] = weight.number_input('Weight',0.,1000.,start_weight,5.)
 #exercise_data['Sets'] =sets.number_input('Sets',1,10,4,1)
 
 rep_ranges = rearrange(sorted(ref['Reps'].unique()),start_reps)
-#exercise_data['Reps'] = reps.selectbox('Rep Range',rep_ranges)
 
-datetime = datetime.datetime.now()
-exercise_data['DateTime'] = datetime
-exercise_data['Date']  = datetime.date() #date.date_input('Day',value = )
+
+
+curr_time = dt.datetime.utcnow().replace(tzinfo=tz.gettz('UTC')).astimezone(tz.gettz('America/Denver'))
+
+exercise_data['DateTime'] = curr_time
+exercise_data['Date']  = curr_time.date() #date.date_input('Day',value = )
 exercise_data['Day'] = exercise_data['Date'].strftime('%A')[:3]
-exercise_data['Time'] = datetime.time().strftime("%H:%M:%S")
+exercise_data['Time'] = curr_time.time().strftime("%H:%M:%S")
 
 
 
