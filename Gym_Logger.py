@@ -47,39 +47,55 @@ def append_user_exercise(user_df):
     pass
 
 
-person,ex,exercise = st.columns([1,1,5])
+user_exists, user = st.columns([1,4])
+#date, time = st.columns([1,1])
+ex,exercise,weight = st.columns([1,3,1])
 
-individuals = ['Nate','Selena','Jacob']
-exercise_data['User'] = person.selectbox('User',individuals)
 
 
-existing_exercise = ex.selectbox('Exising Exercise',(True,False))
 
-if existing_exercise:
+
+if user_exists.selectbox('New User', (False,True)):
+    exercise_data['User'] = user.text_input('User',placeholder='Type Name Here')
+else:
+    individuals = ['Nate','Selena','Jacob']
+    exercise_data['User'] = user.selectbox('User',individuals)
+
+# = time.time_input('Time',value=datetime.time()).strftime("%I:%M:%S %p")
+
+ex_select = ex.selectbox('Exercise Source',('Existing Exercise','New Exercise'))
+
+if ex_select=='Existing Exercise':
     exercise_data['Exercise'] = exercise.selectbox('Exercise',exercises)
     start_weight = float(ref.loc[exercise_data['Exercise'],'Weight'])
     start_reps = ref.loc[exercise_data['Exercise'],'Reps']
-else:
-    exercise_data['Exercise'] = exercise.text_input('Exercise')
+if ex_select == 'New Exercise':
+    exercise_data['Exercise'] = exercise.text_input('Exercise',placeholder='Type exercise here')
     start_weight=50.
     start_reps = '10-12'
 
 
-weight, sets, reps = st.columns([1,1,1])
+
 
 exercise_data['Weight'] = weight.number_input('Weight',0.,1000.,start_weight,5.)
 
-exercise_data['Sets'] =sets.number_input('Sets',1,10,4,1)
+#exercise_data['Sets'] =sets.number_input('Sets',1,10,4,1)
 
 rep_ranges = rearrange(sorted(ref['Reps'].unique()),start_reps)
-exercise_data['Reps'] = reps.selectbox('Rep Range',rep_ranges)
+#exercise_data['Reps'] = reps.selectbox('Rep Range',rep_ranges)
 
-if st.button('Submit'):
+datetime = datetime.datetime.now()
+exercise_data['DateTime'] = datetime
+exercise_data['Date']  = datetime.date() #date.date_input('Day',value = )
+exercise_data['Day'] = exercise_data['Date'].strftime('%A')[:3]
+exercise_data['Time'] = datetime.time().strftime("%H:%M:%S")
+
+
+
+submit, rest,_ = st.columns([1,1,8])
+
+if submit.button('Submit Exercise'):
     
-    exercise_data['DateTime'] = datetime.datetime.now()
-    exercise_data['Date'] = exercise_data['DateTime'].date()
-    exercise_data['Day'] = exercise_data['DateTime'].strftime('%A')[:3]
-    exercise_data['Time'] = exercise_data['DateTime'].time().strftime("%I:%M %p")
     
     submitted_ex = pd.DataFrame(exercise_data,index=[0])
     
@@ -87,14 +103,27 @@ if st.button('Submit'):
     db.to_csv('Data/DataBase.csv',index=None)
     db = load_db()
     
-    
+
+
+if rest.button("Add Rest"):
+    exercise_data['Exercise'] = 'Rest'
+    exercise_data['Weight'] = 0
+    db = pd.concat([db,pd.DataFrame(exercise_data,index=[0])],ignore_index=True).reset_index(drop=True)
+    db.to_csv('Data/DataBase.csv',index=None)
+    db = load_db()
 
 st.write('Last 5 Exercises')
 user_mask = db['User'] == exercise_data['User']
+
+
+
 if st.button('Clear User History'):
     db = db[~user_mask]
     db.to_csv('Data/DataBase.csv',index=None)
 
+
+
+    
 
 user_mask = db['User'] == exercise_data['User']
 user_display = db[user_mask].tail().reset_index(drop=True)
