@@ -60,7 +60,7 @@ def add_new():
 
     
 
-worksheets = gspread.service_account(filename='cashsheets2.json').open("Gym_Logger").worksheets()
+worksheets = gspread.service_account_from_dict(st.secrets["gcp_service_account"]).open("Gym_Logger").worksheets()
 users = sorted(ws.title for ws in worksheets)
 exercise_data['User'] = user.selectbox('User',users)
 df = load_user_data(exercise_data['User'])
