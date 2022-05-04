@@ -12,27 +12,22 @@ st.set_page_config(layout="wide",initial_sidebar_state='collapsed')
 import gspread
 from dateutil import tz
 
-def load_exercises():
-    gc = gspread.service_account_from_dict(st.secrets["gcp_service_account"])
-    db = gc.open("Gym_Logger_Ex").worksheet("Exercises").get_all_values()
-    return  pd.DataFrame(db[1:],columns=db[0])
 
 def load_user_data(user):
     gc = gspread.service_account_from_dict(st.secrets["gcp_service_account"])
     db = gc.open("Gym_Logger").worksheet(user).get_all_values()
     df = pd.DataFrame(db[1:],columns=db[0])
-    df[['Weight','Reps']] =  df[['Weight','Reps']].astype('float')
+
     return df
 
-def update_sheet(user,df):
+def update_sheet(user,old_data,new_data):
     gc = gspread.service_account_from_dict(st.secrets["gcp_service_account"])
     worksheet = gc.open("Gym_Logger").worksheet(user)
-    submitted_ex = pd.DataFrame(exercise_data,index=[0]) 
-    df = pd.concat([df,submitted_ex],ignore_index=True).reset_index(drop=True)
+    df = pd.concat([old_data,new_data],ignore_index=True).reset_index(drop=True)
     worksheet.update([df.columns.values.tolist()] + df.values.tolist())
     return df
 
-ref = load_exercises().reset_index(drop=True)
+ref = load_user_data('Exercises').reset_index(drop=True)
 exercise_data = {}
 user = st.columns([1])[0]
 ex_type,exercise,weight,reps = st.columns([1,2,1,1])
@@ -53,24 +48,19 @@ new_ex['MuscleGroup'] = sidebar.text_input('Muscle Group',placeholder='Type Musc
 new_ex['Exercise'] = sidebar.text_input('New Exercise',placeholder='Type Exercise Here')
 new_ex['PP']  = 'TBA'
 if sidebar.button("Add Exercise"):
-    r = pd.DataFrame(new_ex,index = [0])
-    gc = gspread.service_account_from_dict(st.secrets["gcp_service_account"])
-    worksheet = gc.open("Gym_Logger_Ex").worksheet("Exercises")
-    ref = pd.concat([ref,r],ignore_index=True)
-    worksheet.update([ref.columns.values.tolist()] + ref.values.tolist())
+    update_sheet('Exercises',ref,pd.DataFrame(new_ex,index = [0]))
   
 
 worksheets = gspread.service_account_from_dict(st.secrets["gcp_service_account"]).open("Gym_Logger").worksheets()
-users = sorted(ws.title for ws in worksheets)
+users = sorted(ws.title for ws in worksheets if ws.title != 'Exercises' )
 exercise_data['User'] = user.selectbox('User',users)
 df = load_user_data(exercise_data['User'])
+df[['Weight','Reps']] =  df[['Weight','Reps']].astype('float')
+
 
 ex_type_value = ex_type.selectbox('Muscle Group',sorted(ref['MuscleGroup'].unique()))
 body_ref = ref[ref['MuscleGroup'] == ex_type_value]
 ex_selection = exercise.selectbox('Exercise Selection',sorted(body_ref['Exercise']))
-
-
-
 
 exercise_data['MuscleGroup'] = ex_type_value
 exercise_data['Exercise'] = ex_selection
@@ -92,13 +82,13 @@ exercise_data['Notes'] = notes.text_input('Notes',placeholder='Type Notes here')
 submit, rest,_ = st.columns([1,3,5])
 
 if submit.button('Submit'):
-    df = update_sheet(exercise_data['User'],df)
+    df = update_sheet(exercise_data['User'],df,pd.DataFrame(exercise_data,index=[0]))
 
 def done_with(df):
     if rest.button(f"Done with {exercise_data['Exercise']}"):
         exercise_data['Exercise'] = '---'
         exercise_data['Weight'] = 0
-        df = update_sheet(exercise_data['User'],df)
+        df = update_sheet(exercise_data['User'],df,pd.DataFrame(exercise_data,index=[0]))
 
 
 #done_with(df)
