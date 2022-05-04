@@ -1,23 +1,18 @@
-aiohttp @ file:///D:/bld/aiohttp_1649013334059/work
-aiosignal @ file:///home/conda/feedstock_root/build_artifacts/aiosignal_1636093929600/work
 altair==4.2.0
 argon2-cffi==21.3.0
 argon2-cffi-bindings==21.2.0
 asttokens==2.0.5
-async-timeout @ file:///home/conda/feedstock_root/build_artifacts/async-timeout_1640026696943/work
-attrs @ file:///home/conda/feedstock_root/build_artifacts/attrs_1640799537051/work
+attrs==21.4.0
 backcall==0.2.0
 beautifulsoup4==4.11.1
 bleach==5.0.0
 blinker==1.4
-brotlipy @ file:///D:/bld/brotlipy_1648854327487/work
-cachetools @ file:///home/conda/feedstock_root/build_artifacts/cachetools_1640686991047/work
+cachetools==5.0.0
 certifi==2021.10.8
-cffi @ file:///D:/bld/cffi_1636046278333/work
-charset-normalizer @ file:///home/conda/feedstock_root/build_artifacts/charset-normalizer_1644853463426/work
+cffi==1.15.0
+charset-normalizer==2.0.12
 click==8.0.4
-colorama @ file:///home/conda/feedstock_root/build_artifacts/colorama_1602866480661/work
-cryptography @ file:///D:/bld/cryptography_1649035434655/work
+colorama==0.4.4
 cvxopt==1.3.0
 cvxpy==1.2.0
 debugpy==1.6.0
@@ -27,13 +22,10 @@ ecos==2.0.10
 entrypoints==0.4
 executing==0.8.3
 fastjsonschema==2.15.3
-frozenlist @ file:///D:/bld/frozenlist_1648771863087/work
 gitdb==4.0.9
 GitPython==3.1.27
-google-auth @ file:///home/conda/feedstock_root/build_artifacts/google-auth_1650592442422/work
-google-auth-oauthlib @ file:///home/conda/feedstock_root/build_artifacts/google-auth-oauthlib_1647368488056/work
 gspread==5.3.2
-idna @ file:///home/conda/feedstock_root/build_artifacts/idna_1642433548627/work
+idna==3.3
 importlib-metadata==4.11.3
 ipykernel==6.13.0
 ipython==8.2.0
@@ -49,14 +41,12 @@ jupyterlab-widgets==1.1.0
 MarkupSafe==2.1.1
 matplotlib-inline==0.1.3
 mistune==0.8.4
-multidict @ file:///D:/bld/multidict_1648882567277/work
 nbclient==0.6.0
 nbconvert==6.5.0
 nbformat==5.3.0
 nest-asyncio==1.5.5
 notebook==6.4.10
 numpy==1.22.3
-oauthlib @ file:///home/conda/feedstock_root/build_artifacts/oauthlib_1643507977997/work
 osqp==0.6.2.post5
 packaging==21.3
 pandas==1.4.2
@@ -71,33 +61,25 @@ protobuf==3.20.0
 psutil==5.9.0
 pure-eval==0.2.2
 pyarrow==7.0.0
-pyasn1==0.4.8
-pyasn1-modules==0.2.8
-pycparser @ file:///home/conda/feedstock_root/build_artifacts/pycparser_1636257122734/work
+pycparser==2.21
 pydeck==0.7.1
 Pygments==2.11.2
-PyJWT @ file:///home/conda/feedstock_root/build_artifacts/pyjwt_1638819640841/work
 Pympler==1.0.1
-pyOpenSSL @ file:///home/conda/feedstock_root/build_artifacts/pyopenssl_1643496850550/work
 pyparsing==3.0.8
 pyrsistent==0.18.1
-PySocks @ file:///D:/bld/pysocks_1648857426942/work
 python-dateutil==2.8.2
 pytz==2022.1
 pytz-deprecation-shim==0.1.0.post0
-pyu2f @ file:///home/conda/feedstock_root/build_artifacts/pyu2f_1604248910016/work
 #pywin32==303
 #pywinpty==2.0.5
 pyzmq==22.3.0
 qdldl==0.1.5.post2
-requests @ file:///home/conda/feedstock_root/build_artifacts/requests_1641580202195/work
-requests-oauthlib @ file:///home/conda/feedstock_root/build_artifacts/requests-oauthlib_1643557462909/work
-rsa @ file:///home/conda/feedstock_root/build_artifacts/rsa_1637781155505/work
+requests==2.27.1
 scipy==1.8.0
 scs==3.2.0
 semver==2.13.0
 Send2Trash==1.8.0
-six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
+six==1.16.0
 smmap==5.0.0
 soupsieve==2.3.2.post1
 stack-data==0.2.0
@@ -109,16 +91,13 @@ toml==0.10.2
 toolz==0.11.2
 tornado==6.1
 traitlets==5.1.1
-typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/typing_extensions_1650370875435/work
 tzdata==2022.1
 tzlocal==4.2
-urllib3 @ file:///home/conda/feedstock_root/build_artifacts/urllib3_1647489083693/work
+urllib3==1.26.9
 validators==0.18.2
 watchdog==2.1.7
 wcwidth==0.2.5
 webencodings==0.5.1
 widgetsnbextension==3.6.0
-win-inet-pton @ file:///D:/bld/win_inet_pton_1648771910527/work
 wincertstore==0.2
-yarl @ file:///D:/bld/yarl_1648966682693/work
 zipp==3.8.0
