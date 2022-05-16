@@ -121,5 +121,17 @@ summary['TotalVolume'] = gby['sumVolume'].astype(str)
 
 #st.dataframe(df)
 #st.dataframe(gby)
-summary = summary.sort_values('LastRepTime').drop(['FirstRepTime','LastRepTime'],axis=1)
+summary = summary.sort_values(['Date','LastRepTime']).drop(['FirstRepTime','LastRepTime'],axis=1)
 st.write(summary.tail(show_n))
+
+sidebar.markdown(
+        """
+Author: [JacWerCode](https://github.com/JacWerCode)
+---
+<a href="https://www.buymeacoffee.com/JacWerCode" target="_blank">
+<img src="https://cdn.buymeacoffee.com/buttons/v2/default-green.png" alt="Buy Me A Coffee" 
+width="180" height="50" ></a>
+    """,  
+    
+        unsafe_allow_html=True,
+    )
